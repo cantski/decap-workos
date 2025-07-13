@@ -1,0 +1,35 @@
+publish_mode: "editorial_workflow"
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+site_url: "https://decap-workos.callum-7e3.workers.dev/"
+display_url: "https://decap-workos.callum-7e3.workers.dev/"
+locale: "en"
+show_preview_links: true
+search: true
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "_"
+collections:
+  - name: "posts"
+    label: "Blog posts"
+    label_singular: "Post"
+    folder: "src/posts"
+    identifier_field: "permalink"
+    create: true
+    extension: "markdown"
+    slug: "{{slug}}"
+    preview_path: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Permalink", name: "permalink", widget: "string" }
+backend:
+  name: git-gateway
+  commit_messages:
+    create: Create {{collection}} “{{slug}}”
+    update: Update {{collection}} “{{slug}}”
+    delete: Delete {{collection}} “{{slug}}”
+    uploadMedia: Upload “{{path}}”
+    deleteMedia: Delete “{{path}}”
+    openAuthoring: '{{message}}'
