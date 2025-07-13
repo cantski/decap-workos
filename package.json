@@ -2,12 +2,15 @@
 	"name": "decap-workos",
 	"version": "0.0.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
-		"start": "wrangler dev"
+		"start": "wrangler dev",
+		"build": "eleventy"
 	},
 	"devDependencies": {
+		"@11ty/eleventy": "^3.1.2",
 		"wrangler": "^4.24.3"
 	}
 }
