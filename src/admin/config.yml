@@ -29,7 +29,8 @@ backend:
   repo: cantski/decap-workos
   branch: main
   auth_type: external_oauth
-  auth_endpoint: https://decap-workos.callum-7e3.workers.dev/api/auth
+  base_url: https://decap-workos.callum-7e3.workers.dev
+  auth_endpoint: /api/auth
   app_id: client_01K01P6JQEQ2857BKBZHAHK24R
   commit_messages:
     create: Create {{collection}} “{{slug}}”
