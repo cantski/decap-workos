@@ -9,7 +9,7 @@ router.get('/api/auth', async (request, env) => {
     const workos = new WorkOS(env.WORKOS_API_KEY);
     const workerUrl = new URL(request.url);
     const redirectUri = `${workerUrl.origin}/api/callback`;
-
+    console.log('env.WORKOS_CLIENT_ID', env.WORKOS_CLIENT_ID);
     const authorizationUrl = workos.sso.getAuthorizationUrl({
         provider: 'authkit',
         clientID: env.WORKOS_CLIENT_ID,
