@@ -9,11 +9,11 @@ router.get('/api/auth', async (request, env) => {
     const workos = new WorkOS(env.WORKOS_API_KEY);
     const workerUrl = new URL(request.url);
     const redirectUri = `${workerUrl.origin}/api/callback`;
-    console.log('env.WORKOS_CLIENT_ID', env.WORKOS_CLIENT_ID);
+
     const authorizationUrl = workos.sso.getAuthorizationUrl({
-        provider: 'authkit',
-        clientID: env.WORKOS_CLIENT_ID,
-        redirectURI: redirectUri,
+        organization: env.WORKOS_ORG_ID,
+        clientId: env.WORKOS_CLIENT_ID,
+        redirectUri,
     });
 
     return Response.redirect(authorizationUrl, 302);
@@ -33,7 +33,7 @@ router.get('/api/callback', async (request, env) => {
     try {
         const { profile } = await workos.sso.getProfileAndToken({
             code,
-            clientID: env.WORKOS_CLIENT_ID,
+            clientId: env.WORKOS_CLIENT_ID,
         });
 
         if (profile.organizationId !== env.WORKOS_ORG_ID) {
