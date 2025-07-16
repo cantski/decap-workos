@@ -17,7 +17,8 @@ collections:
     folder: "src/posts"
     identifier_field: "permalink"
     create: true
-    extension: "markdown"
+    extension: "md"
+    format: "yaml-frontmatter"
     slug: "{{slug}}"
     preview_path: "{{slug}}"
     fields:
