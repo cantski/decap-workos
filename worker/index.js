@@ -43,10 +43,10 @@ router.get('/api/callback', async (request, env) => {
             );
         }
 
-        const githubToken = env.DECAP_CMS_GITHUB_TOKEN;
+        const githubToken = encodeURIComponent(env.DECAP_CMS_GITHUB_TOKEN);
 
         const decapRedirect = new URL(env.DECAP_SITE_URL);
-        decapRedirect.hash = `#auth={"token":"${githubToken}","provider":"external"}`;
+        decapRedirect.hash = `#access_token=${githubToken}&provider=external`;
 
         return Response.redirect(decapRedirect.toString(), 302);
     } catch (error) {
