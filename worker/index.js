@@ -19,6 +19,23 @@ router.get('/api/auth', async (request, env) => {
     return Response.redirect(authorizationUrl, 302);
 });
 
+const renderBody = (status, content) => {
+    const html = `
+    <script>
+      const receiveMessage = (message) => {
+        window.opener.postMessage(
+          'authorization:github:${status}:${JSON.stringify(content)}',
+          message.origin
+        );
+        window.removeEventListener("message", receiveMessage, false);
+      }
+      window.addEventListener("message", receiveMessage, false);
+      window.opener.postMessage("authorizing:github", "*");
+    </script>
+    `;
+    return new Blob([html]);
+};
+
 router.get('/api/callback', async (request, env) => {
     const workos = new WorkOS(env.WORKOS_API_KEY);
     const url = new URL(request.url);
@@ -43,12 +60,17 @@ router.get('/api/callback', async (request, env) => {
             );
         }
 
-        const githubToken = encodeURIComponent(env.DECAP_CMS_GITHUB_TOKEN);
+        const body = renderBody('success', {
+            token: env.DECAP_CMS_GITHUB_TOKEN,
+            provider: 'github',
+        });
 
-        const decapRedirect = new URL(env.DECAP_SITE_URL);
-        decapRedirect.hash = `#access_token=${githubToken}&provider=external`;
-
-        return Response.redirect(decapRedirect.toString(), 302);
+        return new Response(body, {
+            headers: {
+                'content-type': 'text/html;charset=UTF-8',
+            },
+            status: 200,
+        });
     } catch (error) {
         console.error('WorkOS authentication error:', error.message);
         return new Response('Authentication failed.', { status: 500 });
