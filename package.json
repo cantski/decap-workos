@@ -7,7 +7,7 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"build": "eleventy"
+		"build": "rm -rf dist; eleventy"
 	},
 	"devDependencies": {
 		"@11ty/eleventy": "^3.1.2",
